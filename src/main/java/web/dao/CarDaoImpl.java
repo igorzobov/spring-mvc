@@ -1,6 +1,7 @@
 package web.dao;
 
 import org.springframework.stereotype.Repository;
+import org.springframework.ui.ModelMap;
 import web.model.Car;
 
 import java.util.ArrayList;
@@ -26,5 +27,17 @@ public class CarDaoImpl implements CarDao{
     @Override
     public List<Car> getSomeCars(int count) {
         return Collections.unmodifiableList(cars.subList(0, count));
+    }
+
+    @Override
+    public String printCars(Integer count, ModelMap modelMap) {
+        List<Car> cars;
+        if (count >= 5) {
+            cars = getAllCars();
+        } else {
+            cars = getSomeCars(count);
+        }
+        modelMap.addAttribute("messages", cars);
+        return "cars";
     }
 }
